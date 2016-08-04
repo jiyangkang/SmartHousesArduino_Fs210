@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+    project_device="000109"
+    project_id="1"
+    project_local_net="192.168.0.1"
+    project_name="智能家居"
+    project_namespace="http://tempuri.org/"
+    project_outIP="http://sxt.farsightdev.com/SXTWebService.asmx"
+    project_receiveport="20000"
+    project_sendport="20001"
+    project_uart="/dev/s3c2410_serial3"
+    project_baud_rate="115200"
+    project_user_id="admin"
+    project_mode="110">
+
+    <!--name:               节点名称 -->
+    <!--location:           显示节点位置 -->
+    <!--moduleState:        节点类型：监控节点2，控制节点1 -->
+    <!--moduleType:         addrh << 16 | addrl << 8 | moduleType-->
+
+    <module
+        name="矩阵键盘"
+        location="arduino"
+        moduleState="2"
+        moduleType="00134D"
+    />
+
+    <module
+        name="热敏传感器"
+        location="arduino"
+        moduleState="2"
+        moduleType="001434"
+    />
+
+    <module
+        name="光电开关"
+        location="arduino"
+        moduleState="2"
+        moduleType="001550"
+     />
+
+    <module
+        name="电子罗盘"
+        location="arduino"
+        moduleState="2"
+        moduleType="001623"
+    />
+
+    <module
+        name="RFID模块"
+        location="arduino"
+        moduleState="2"
+        moduleType="001732"
+    />
+
+    <module
+        name="酒精传感器"
+        location="arduino"
+        moduleState="2"
+        moduleType="001821"
+    />
+
+    <module
+        name="光敏传感器"
+        location="arduino"
+        moduleState="2"
+        moduleType="002050"
+    />
+
+    <module
+        name="气体传感器"
+        location="arduino"
+        moduleState="2"
+        moduleType="002147"
+    />
+
+    <module
+        name="直流电机"
+        location="arduino"
+        moduleState="1"
+        moduleType="001966"
+        cmd="正转:05;关:30;反转:06;"
+    />
+
+    <module
+        name="数码管"
+        location="arduino"
+        moduleState="1"
+        moduleType="001A6E"
+
+    />
+
+    <module
+        name="步进电机"
+        location="arduino"
+        moduleState="1"
+        moduleType="001B73"
+        cmd="一档:01;二档:02;三档:03;四挡:04;停:00;"
+    />
+
+    <module
+        name="舵机"
+        location="arduino"
+        moduleState="1"
+        moduleType="001C93"
+    />
+
+    <module
+        name="继电器"
+        location="arduino"
+        moduleState="1"
+        moduleType="001D72"
+        cmd="开:31;关:30;"
+    />
+
+    <module
+        name="蜂鸣器"
+        location="arduino"
+        moduleState="1"
+        moduleType="001E62"
+        cmd="开:31;关:30;"
+    />
+
+
+
+    <comm
+        comm_id="1"
+        orient = "002147"
+        dest = "001966"
+        valueMax = "00FF"
+        valueMin = "0010"
+        cmdMax="05"
+        cmdMin="06"
+        cmdIn="30"
+    />
+
+
+</project>
