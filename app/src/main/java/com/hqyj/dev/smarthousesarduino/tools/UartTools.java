@@ -47,6 +47,6 @@ public class UartTools {
     public native int uartClose();
 
     static {
-        System.loadLibrary("uart");
+        System.loadLibrary("uart_smart");
     }
 }
