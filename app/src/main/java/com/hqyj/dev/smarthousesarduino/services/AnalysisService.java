@@ -149,8 +149,9 @@ public class AnalysisService extends Service {
                     break;
                 case DataTool.MATA:
                     bufferPut[DataTool.MATA + j - 1] = bytes.get(i);
-
-                    byte[] send = new byte[bufferPut[DataTool.LENGTH] + bufferPut[DataTool.OFFSET] + 1];
+                    int length = bufferPut[DataTool.LENGTH] & 0x00ff;
+                    int offset = bufferPut[DataTool.OFFSET] & 0x00ff;
+                    byte[] send = new byte[length + offset + 1];
                     System.arraycopy(bufferPut, 0, send, 0, send.length);
 
                     j = 0;

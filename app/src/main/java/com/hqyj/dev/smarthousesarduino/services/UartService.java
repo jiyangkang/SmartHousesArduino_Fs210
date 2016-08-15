@@ -96,6 +96,7 @@ public class UartService extends Service {
                         i.putExtra(DataTool.ERRORINPUT,
                                 ModuleCtrlList.getModuleCtrlList().getModuleHashMap().get(id).getName());
                         UartService.this.sendBroadcast(i);
+                        continue;
                     }
                     sendCmds(datas);
                 } catch (InterruptedException e) {
