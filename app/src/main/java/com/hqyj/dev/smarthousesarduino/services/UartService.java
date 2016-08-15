@@ -86,7 +86,7 @@ public class UartService extends Service {
                     for (byte b : datas) {
                         s.append((char) b);
                     }
-//                    Log.d(TAG, "sendCmds: " + s.toString());
+                    Log.d(TAG, "sendCmds: " + s.toString());
                     if (s.toString().contains("ERROR")) {
                         Intent i = new Intent();
                         i.setAction(DataTool.ERRORINPUT);
