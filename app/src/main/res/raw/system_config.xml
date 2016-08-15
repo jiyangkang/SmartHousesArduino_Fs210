@@ -9,7 +9,7 @@
     project_outIP="http://sxt.farsightdev.com/SXTWebService.asmx"
     project_receiveport="20000"
     project_sendport="20001"
-    project_uart="/dev/s3c2410_serial3"
+    project_uart="/dev/ttySAC0"
     project_baud_rate="115200"
     project_user_id="admin"
     project_mode="110">
@@ -40,19 +40,19 @@
         moduleType="001550"
      />
 
-    <!--<module-->
-        <!--name="电子罗盘"-->
-        <!--location="arduino"-->
-        <!--moduleState="2"-->
-        <!--moduleType="001623"-->
-    <!--/>-->
+    <module
+        name="电子罗盘"
+        location="arduino"
+        moduleState="2"
+        moduleType="001623"
+    />
 
-    <!--<module-->
-        <!--name="RFID模块"-->
-        <!--location="arduino"-->
-        <!--moduleState="2"-->
-        <!--moduleType="001732"-->
-    <!--/>-->
+    <module
+        name="RFID模块"
+        location="arduino"
+        moduleState="2"
+        moduleType="001732"
+    />
 
     <module
         name="酒精传感器"
