@@ -46,17 +46,17 @@ public class DrawVoirView extends View {
     private int degree = 0;
 
 
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case 1:
-                    invalidate();
-                    break;
-            }
-        }
-    };
+//    private Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what){
+//                case 1:
+//                    invalidate();
+//                    break;
+//            }
+//        }
+//    };
 
 
     public void setModule(Module module) {
@@ -79,7 +79,8 @@ public class DrawVoirView extends View {
 //                Log.d("VALUE+++++", "onvalueReceived: " + value);
                 valueToShow = value;
                 setDegree(degree);
-                handler.sendEmptyMessage(1);
+//                handler.sendEmptyMessage(1);
+                postInvalidate();
             }
         });
     }

@@ -69,10 +69,10 @@ public class GridViewCtrlAdapter extends BaseAdapter{
         }
         viewHolder.drawCtrlView.setOnSubmitClicked(new DrawCtrlView.OnSubmitClicked() {
             @Override
-            public void onSubmitClicked(int id) {
+            public void onSubmitClicked(int id, String whichClicked) {
 //                Log.d(TAG, "onSubmitClicked: " + id);
                 if (onSubmitReceived != null){
-                    onSubmitReceived.onSubmitReceived(id);
+                    onSubmitReceived.onSubmitReceived(id, whichClicked);
                 }
             }
         });
@@ -88,7 +88,7 @@ public class GridViewCtrlAdapter extends BaseAdapter{
     }
 
     public interface OnSubmitReceived{
-        void onSubmitReceived(int id);
+        void onSubmitReceived(int id, String whichClicked);
     }
 
     private class ViewHolder{

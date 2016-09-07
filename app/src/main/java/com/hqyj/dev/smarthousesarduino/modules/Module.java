@@ -36,14 +36,14 @@ public abstract class Module {
     private int[] bitmapToshow;
 
 
-    private HashMap<String, Byte> cmdHash;
+    private HashMap<String, byte[]> cmdHash;
 
 
-    public HashMap<String, Byte> getCmdHash() {
+    public HashMap<String, byte[]> getCmdHash() {
         return cmdHash;
     }
 
-    public void setCmdHash(HashMap<String, Byte> cmdHash) {
+    public void setCmdHash(HashMap<String, byte[]> cmdHash) {
         this.cmdHash = cmdHash;
     }
 
@@ -107,9 +107,16 @@ public abstract class Module {
         makeCmd.makeCmd(CMD, netType, signature);
 //        Log.d("Module", "sendCMD: " + getId());
     }
-    public void sendCMD(String CMD){
-        makeCmd.makeCmd(CMD, netType, signature);
-//        Log.d("Module", "sendCMD: " + getId());
+
+//    public void sendCMD(String CMD) {
+//        makeCmd.makeCmd(CMD, netType, signature);
+////        Log.d("Module", "sendCMD: " + getId());
+//    }
+
+    public void sendCMD(String CMD, String whichClicked) {
+
+        makeCmd.makeCmd(cmdHash.get(whichClicked),
+                CMD, netType, signature);
     }
 
     public interface OnValueReceived {

@@ -9,7 +9,7 @@ import com.hqyj.dev.smarthousesarduino.tools.StringTools;
 /**
  * Created by jiyangkang on 2016/6/3 0003.
  */
-public class MakeDefaultCmd implements MakeCmd {
+public class MakeDCCtrlCmd implements MakeCmd {
 
     @Override
     public void makeCmd(byte[] cmd, byte netType,byte[] signture) {
@@ -42,16 +42,27 @@ public class MakeDefaultCmd implements MakeCmd {
 
     @Override
     public void makeCmd(String cmd, byte netType, byte[] signature) {
-        if (cmd!= null){
-            byte[] cmds = MathTools.changeIntoByte(cmd);
-            if (cmds!= null){
-                makeCmd(cmds, netType, signature);
+        if (cmd != null){
+            int cmds = Integer.parseInt(cmd);
+            if (cmds >= 0 && cmds <= 180){
+                byte[] cmds_b = {(byte) (cmds & 0x00ff)};
+                makeCmd(cmds_b, netType, signature);
+            } else {
+                byte[] cmds_b = DataTool.ERRORCMD;
+                makeCmd(cmds_b, netType, signature);
             }
         }
     }
 
     @Override
     public void makeCmd(byte[] cmd_b, String cmd_s, byte netType, byte[] signature) {
-        makeCmd(cmd_b, netType, signature);
+        byte[] cmd;
+        if (cmd_s != null && cmd_s.length() <=4 && Integer.parseInt(cmd_s) <= 50 &&  Integer.parseInt(cmd_s) >= 20 ){
+            cmd =new byte[] {cmd_b[0], (byte) Integer.parseInt(cmd_s)};
+        }else {
+            cmd =DataTool.ERRORCMD;
+        }
+        makeCmd(cmd, netType, signature);
+
     }
 }

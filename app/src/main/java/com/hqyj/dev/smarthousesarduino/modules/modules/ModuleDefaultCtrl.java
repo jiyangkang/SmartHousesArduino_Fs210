@@ -13,7 +13,6 @@ public class ModuleDefaultCtrl extends Module{
 
     public ModuleDefaultCtrl(){
         setHaveSelectBar(false);
-        setCtrlCount(1);
         setHaveInput(true);
         fillDatas = new FillDefaultDatas();
         makeCmd = new MakeDefaultCmd();

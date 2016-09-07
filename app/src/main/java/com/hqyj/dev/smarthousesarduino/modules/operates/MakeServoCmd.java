@@ -1,7 +1,5 @@
 package com.hqyj.dev.smarthousesarduino.modules.operates;
 
-import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import com.hqyj.dev.smarthousesarduino.tools.DataTool;
@@ -56,5 +54,8 @@ public class MakeServoCmd implements MakeCmd {
         }
     }
 
-
+    @Override
+    public void makeCmd(byte[] cmd_b, String cmd_s, byte netType, byte[] signature) {
+        makeCmd(cmd_s, netType, signature);
+    }
 }

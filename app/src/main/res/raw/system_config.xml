@@ -19,106 +19,209 @@
     <!--moduleState:        节点类型：监控节点2，控制节点1 -->
     <!--moduleType:         addrh << 16 | addrl << 8 | moduleType-->
 
+    <!--<module-->
+        <!--name="矩阵键盘"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="00134D"-->
+    <!--/>-->
+    <!-- plus-->
     <module
         name="矩阵键盘"
         location="arduino"
         moduleState="2"
-        moduleType="00134D"
+        moduleType="000E4D"
     />
 
+    <!--<module-->
+        <!--name="热敏传感器"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="001434"-->
+    <!--/>-->
+
+    <!-- plus-->
     <module
-        name="热敏传感器"
+        name="温度传感器"
         location="arduino"
         moduleState="2"
-        moduleType="001434"
+        moduleType="001814"
     />
+
+    <!--<module-->
+        <!--name="光电开关"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="001550"-->
+     <!--/>-->
 
     <module
         name="光电开关"
         location="arduino"
         moduleState="2"
-        moduleType="001550"
-     />
+        moduleType="001050"
+    />
 
+    <!--<module-->
+        <!--name="电子罗盘"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="001623"-->
+    <!--/>-->
+
+    <!-- plus-->
     <module
-        name="电子罗盘"
+        name="火焰传感器"
         location="arduino"
         moduleState="2"
-        moduleType="001623"
+        moduleType="001726"
     />
+
+    <!--<module-->
+        <!--name="RFID模块"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="001732"-->
+    <!--/>-->
 
     <module
         name="RFID模块"
         location="arduino"
         moduleState="2"
-        moduleType="001732"
+        moduleType="001232"
     />
+
+    <!--<module-->
+        <!--name="酒精传感器"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="001821"-->
+    <!--/>-->
 
     <module
         name="酒精传感器"
         location="arduino"
         moduleState="2"
-        moduleType="001821"
+        moduleType="001321"
     />
+
+    <!--<module-->
+        <!--name="光敏传感器"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="002050"-->
+    <!--/>-->
 
     <module
         name="光敏传感器"
         location="arduino"
         moduleState="2"
-        moduleType="002050"
+        moduleType="001410"
     />
+
+    <!--<module-->
+        <!--name="气体传感器"-->
+        <!--location="arduino"-->
+        <!--moduleState="2"-->
+        <!--moduleType="002147"-->
+    <!--/>-->
 
     <module
         name="气体传感器"
         location="arduino"
         moduleState="2"
-        moduleType="002147"
+        moduleType="001547"
     />
+
+    <!--<module-->
+        <!--name="直流电机"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001966"-->
+        <!--cmd="正转:05;关:30;反转:06;"-->
+    <!--/>-->
 
     <module
         name="直流电机"
         location="arduino"
         moduleState="1"
-        moduleType="001966"
-        cmd="正转:05;关:30;反转:06;"
+        moduleType="40046d"
+        cmd="正转:05;反转:06;关:30;"
     />
+
+    <!--<module-->
+        <!--name="数码管"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001A6E"-->
+    <!--/>-->
 
     <module
         name="数码管"
         location="arduino"
         moduleState="1"
-        moduleType="001A6E"
-
+        moduleType="40066E"
     />
+
+    <!--<module-->
+        <!--name="步进电机"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001B73"-->
+        <!--cmd="一档:01;二档:02;三档:03;四挡:04;停:00;"-->
+    <!--/>-->
 
     <module
         name="步进电机"
         location="arduino"
         moduleState="1"
-        moduleType="001B73"
+        moduleType="40078d"
         cmd="一档:01;二档:02;三档:03;四挡:04;停:00;"
     />
+
+    <!--<module-->
+        <!--name="舵机"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001C93"-->
+    <!--/>-->
 
     <module
         name="舵机"
         location="arduino"
         moduleState="1"
-        moduleType="001C93"
+        moduleType="400873"
     />
+
+    <!--<module-->
+        <!--name="继电器"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001D72"-->
+        <!--cmd="开:31;关:30;"-->
+    <!--/>-->
 
     <module
         name="继电器"
         location="arduino"
         moduleState="1"
-        moduleType="001D72"
+        moduleType="400992"
         cmd="开:31;关:30;"
     />
+
+    <!--<module-->
+        <!--name="蜂鸣器"-->
+        <!--location="arduino"-->
+        <!--moduleState="1"-->
+        <!--moduleType="001E62"-->
+        <!--cmd="开:31;关:30;"-->
+    <!--/>-->
 
     <module
         name="蜂鸣器"
         location="arduino"
         moduleState="1"
-        moduleType="001E62"
+        moduleType="400A62"
         cmd="开:31;关:30;"
     />
 

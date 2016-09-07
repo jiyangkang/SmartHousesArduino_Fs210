@@ -46,12 +46,15 @@ public class DrawCtrlView extends View {
 
     private Rect button1, button2, button3, button4, button5, button6, button7, button8, button9;
     private Paint button1P, button2P, button3P, button4P, button5P, button6P, button7P, button8P, button9P;
-    private Rect buttonBack;
     private String button1Text, button2Text, button3Text, button4Text, button5Text, button6Text, button7Text, button8Text, button9Text;
 
-    private List<String> cmdList;
+    private Rect[] rects;
 
-    private HashMap<String, Byte> cmdHashMap;
+    private Rect stateR;
+
+    private String state;
+
+    private List<String> cmdList;
 
     private Module module;
 
@@ -59,15 +62,15 @@ public class DrawCtrlView extends View {
 
     private Context mContext;
 
-    private int max = 180;
-    private int min = 0;
 
     public void setModule(Module module) {
         this.module = module;
         name = module.getName();
         ctrlCount = module.getCtrlCount();
         isHaveSelectBar = module.isHaveSelectBar();
-        cmdHashMap = module.getCmdHash();
+
+        HashMap<String, Byte> cmdHashMap = module.getCmdHash();
+
         if (cmdHashMap != null) {
             ctrlCount = cmdHashMap.size();
             for (Object o : cmdHashMap.entrySet()) {
@@ -77,6 +80,16 @@ public class DrawCtrlView extends View {
             }
         }
         setButtonRect();
+
+        this.module.setOnValueReceived(new Module.OnValueReceived() {
+            @Override
+            public void onvalueReceived(String value, int degree) {
+                state = String.format("当前状态：%s", value);
+                postInvalidate();
+            }
+        });
+
+        postInvalidate();
     }
 
     private void setButtonRect() {
@@ -426,6 +439,8 @@ public class DrawCtrlView extends View {
         selecterRect = new Rect(selectBarRect.left, selectBarRect.top - selectBarRect.height() / 2, selectBarRect.left + 16, selectBarRect.bottom + selectBarRect.height() / 2);
         cmdList = new ArrayList<>();
 
+        stateR = new Rect(dstRect.left, dstRect.bottom, dstRect.right, dstRect.bottom + dstRect.height() / 5);
+        state = String.format("当前状态：%s", "null");
         setButtonRect();
 
     }
@@ -466,7 +481,6 @@ public class DrawCtrlView extends View {
             canvas.drawRect(selecterRect, mPaint);
         }
 
-
         if (button1 != null) {
             drawButton(button1, button1P, canvas, button1Text);
         }
@@ -495,6 +509,9 @@ public class DrawCtrlView extends View {
             drawButton(button9, button9P, canvas, button9Text);
         }
 
+        mPaint.setColor(Color.BLACK);
+        mPaint.setTextSize(22);
+        canvas.drawText(state, stateR.left, stateR.top + stateR.height() / 2, mPaint);
 
     }
 
@@ -502,7 +519,7 @@ public class DrawCtrlView extends View {
         mPaint.setColor(buttonColorbg);
         canvas.drawRect(rect, mPaint);
         mPaint.setColor(Color.BLACK);
-        canvas.drawRect(rect.left - 2, rect.top - 2 , rect.right - 2, rect.bottom - 2, buttonPaint);
+        canvas.drawRect(rect.left - 2, rect.top - 2, rect.right - 2, rect.bottom - 2, buttonPaint);
         mPaint.setTextSize(rect.width() / 4);
         mPaint.setColor(Color.argb(0xff, 0x1f, 0x1f, 0x1f));
         canvas.drawText(text,
@@ -528,7 +545,7 @@ public class DrawCtrlView extends View {
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else {
-            height = getPaddingTop() + getPaddingBottom() + dstRect.height();
+            height = getPaddingTop() + getPaddingBottom() + dstRect.height() * 5 / 4;
         }
         setMeasuredDimension(width, height);
     }
@@ -563,53 +580,62 @@ public class DrawCtrlView extends View {
             case MotionEvent.ACTION_UP:
                 if (button1 != null && isXYinRect(x, y, button1)) {
                     button1P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(0))});
-                    } else {
-                        if (onSubmitClicked != null) {
-                            onSubmitClicked.onSubmitClicked(module.getId());
-//                            Log.d(TAG, "onTouchEvent: " + module.getId());
+                    if (onSubmitClicked != null) {
+                        if (cmdList.size()!=0){
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(0));
+                        }else {
+                            onSubmitClicked.onSubmitClicked(module.getId(), null);
                         }
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
+
                 } else if (button2 != null && isXYinRect(x, y, button2)) {
                     button2P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(1))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(1));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button3 != null && isXYinRect(x, y, button3)) {
                     button3P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(2))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(2));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button4 != null && isXYinRect(x, y, button4)) {
                     button4P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(3))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(3));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button5 != null && isXYinRect(x, y, button5)) {
                     button5P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(4))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(4));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button6 != null && isXYinRect(x, y, button6)) {
                     button6P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(5))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(5));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button7 != null && isXYinRect(x, y, button7)) {
                     button7P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(6))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(6));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button8 != null && isXYinRect(x, y, button8)) {
                     button8P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(7))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(7));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else if (button9 != null && isXYinRect(x, y, button9)) {
                     button9P.setColor(buttonColorfo);
-                    if (cmdHashMap != null && cmdList != null) {
-                        module.sendCMD(new byte[]{cmdHashMap.get(cmdList.get(8))});
+                    if (onSubmitClicked != null) {
+                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(8));
+//                            Log.d(TAG, "onTouchEvent: " + module.getId());
                     }
                 } else {
                     if (button1 != null) {
@@ -647,6 +673,8 @@ public class DrawCtrlView extends View {
                             x < selectBarRect.right - selecterRect.width() / 2 &&
                             y > selecterRect.top &&
                             y < selecterRect.bottom) {
+                        int min = 0;
+                        int max = 180;
                         int t = (int) ((max - min) * (x - selectBarRect.left - selecterRect.width() / 2) / (selectBarRect.width() - selecterRect.width()));
                         if (module != null) {
                             module.sendCMD(new byte[]{(byte) (t & 0xff)});
@@ -671,6 +699,6 @@ public class DrawCtrlView extends View {
     }
 
     public interface OnSubmitClicked {
-        void onSubmitClicked(int id);
+        void onSubmitClicked(int id, String whichClicked);
     }
 }

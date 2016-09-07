@@ -56,4 +56,9 @@ public class MakeInputCmd implements MakeCmd {
             }
         }
     }
+
+    @Override
+    public void makeCmd(byte[] cmd_b, String cmd_s, byte netType, byte[] signature) {
+        makeCmd(cmd_s, netType, signature);
+    }
 }

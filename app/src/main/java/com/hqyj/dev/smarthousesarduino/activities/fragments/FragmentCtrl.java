@@ -52,16 +52,18 @@ public class FragmentCtrl extends Fragment {
         gridView.setAdapter(gridViewCtrlAdapter);
         gridViewCtrlAdapter.setOnSubmitReceived(new GridViewCtrlAdapter.OnSubmitReceived() {
             @Override
-            public void onSubmitReceived(int id) {
+            public void onSubmitReceived(int id, String whichClicked) {
                 Module module = ModuleCtrlList.getModuleCtrlList().getModuleHashMap().get(id);
-                if (!editText.getText().toString().equalsIgnoreCase("null")) {
-//                    if (MathTools.changeIntoByte(editText.getText().toString()) == null) {
-//                        Toast.makeText(mView.getContext(), "请输入正确的命令控制字，例如:30！", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        module.sendCMD(MathTools.changeIntoByte(editText.getText().toString()));
-//                    }
-                    module.sendCMD(editText.getText().toString());
-                }
+//                if (!editText.getText().toString().equalsIgnoreCase("null")) {
+////                    if (MathTools.changeIntoByte(editText.getText().toString()) == null) {
+////                        Toast.makeText(mView.getContext(), "请输入正确的命令控制字，例如:30！", Toast.LENGTH_SHORT).show();
+////                    } else {
+////                        module.sendCMD(MathTools.changeIntoByte(editText.getText().toString()));
+////                    }
+//                    module.sendCMD(editText.getText().toString());
+//                }
+
+                module.sendCMD(editText.getText().toString(), whichClicked);
             }
         });
     }

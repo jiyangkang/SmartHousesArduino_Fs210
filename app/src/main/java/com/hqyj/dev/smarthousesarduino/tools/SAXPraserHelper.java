@@ -66,7 +66,7 @@ public class SAXPraserHelper extends DefaultHandler {
                         module.setName(modlueList.get("name") + ":" + modlueList.get("location"));
                         module.setId(MathTools.changeIntoInt(modlueList.get("moduleType")));
                         if (modlueList.get("cmd") != null){
-                            HashMap<String, Byte> hashMapCMD = new HashMap<>();
+                            HashMap<String, byte[]> hashMapCMD = new HashMap<>();
                             String cmd = modlueList.get("cmd");
                             StringBuilder cmdName = new StringBuilder();
                             StringBuilder cmdNum = new StringBuilder();
@@ -81,7 +81,7 @@ public class SAXPraserHelper extends DefaultHandler {
                                     cmdNum.append(cmd.charAt(i));
                                 } else if (cmd.charAt(i) == ';'){
                                     startCmd = false;
-                                    hashMapCMD.put(cmdName.toString(), (byte) (MathTools.changeIntoInt(cmdNum.toString()) & 0x00ff));
+                                    hashMapCMD.put(cmdName.toString(), MathTools.changeIntoByte(cmdNum.toString()));
                                     cmdName.delete(0,cmdName.length());
                                     cmdNum.delete(0, cmdNum.length());
                                 }

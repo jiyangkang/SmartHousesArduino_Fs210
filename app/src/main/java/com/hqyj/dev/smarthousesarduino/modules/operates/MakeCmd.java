@@ -7,4 +7,5 @@ package com.hqyj.dev.smarthousesarduino.modules.operates;
 public interface MakeCmd {
     void makeCmd(byte[] cmd, byte netType,byte[] signature);
     void makeCmd(String cmd, byte netType,byte[] signature);
+    void makeCmd(byte[] cmd_b, String cmd_s, byte netType,byte[] signature);
 }
