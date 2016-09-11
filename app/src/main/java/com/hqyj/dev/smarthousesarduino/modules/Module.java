@@ -108,15 +108,18 @@ public abstract class Module {
 //        Log.d("Module", "sendCMD: " + getId());
     }
 
-//    public void sendCMD(String CMD) {
-//        makeCmd.makeCmd(CMD, netType, signature);
-////        Log.d("Module", "sendCMD: " + getId());
-//    }
+    public void sendCMD(String CMD) {
+        makeCmd.makeCmd(CMD, netType, signature);
+//        Log.d("Module", "sendCMD: " + getId());
+    }
 
     public void sendCMD(String CMD, String whichClicked) {
-
-        makeCmd.makeCmd(cmdHash.get(whichClicked),
-                CMD, netType, signature);
+        if (whichClicked != null) {
+            makeCmd.makeCmd(cmdHash.get(whichClicked),
+                    CMD, netType, signature);
+        } else {
+            sendCMD(CMD);
+        }
     }
 
     public interface OnValueReceived {

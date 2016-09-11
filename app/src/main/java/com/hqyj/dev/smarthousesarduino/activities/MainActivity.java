@@ -2,14 +2,14 @@ package com.hqyj.dev.smarthousesarduino.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,18 +23,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.hqyj.dev.smarthousesarduino.R;
 import com.hqyj.dev.smarthousesarduino.activities.fragments.FragmentCtrl;
 import com.hqyj.dev.smarthousesarduino.activities.fragments.FragmentVoir;
-import com.hqyj.dev.smarthousesarduino.services.UartService;
 import com.hqyj.dev.smarthousesarduino.system.SystemConfig;
-import com.hqyj.dev.smarthousesarduino.tools.CodeTools;
-import com.hqyj.dev.smarthousesarduino.tools.DataTool;
 import com.hqyj.dev.smarthousesarduino.tools.SAXPraserHelper;
-import com.hqyj.dev.smarthousesarduino.tools.StringTools;
 import com.hqyj.dev.smarthousesarduino.views.DrawBottom;
 
 import org.xml.sax.InputSource;
@@ -67,11 +62,11 @@ public class MainActivity extends Activity {
     private DrawBottom drawBottom;
 
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     dialog.dismiss();
                     listViewProject.setAdapter(new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, project));
@@ -131,7 +126,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    private class ConfigThread extends Thread{
+    private class ConfigThread extends Thread {
         @Override
         public void run() {
             super.run();
@@ -156,7 +151,6 @@ public class MainActivity extends Activity {
                 SystemConfig.getSystemConfig().setFragmentList(fragments);
 
 
-
                 handler.sendEmptyMessage(1);
             } catch (ParserConfigurationException | SAXException | IOException e) {
 //                e.printStackTrace();
@@ -171,7 +165,7 @@ public class MainActivity extends Activity {
     private EditText editText;
     private ImageView imageView;
 
-    private void creatDialog(){
+    private void creatDialog() {
         alertDialog = new Dialog(mContext);
         alertDialog.show();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
@@ -186,7 +180,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String str = editText.getText().toString();
-                if (str.equalsIgnoreCase("null") || str.length() > 4){
+                if (str.equalsIgnoreCase("null") || str.length() > 4) {
                     Toast.makeText(mContext, "输入信息有误，请重新输入！", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -194,20 +188,32 @@ public class MainActivity extends Activity {
                 stringBuilder.append(SystemConfig.getSystemConfig().getDevice());
                 stringBuilder.replace(0, 4, String.format("%04d", Integer.parseInt(str)));
                 SystemConfig.getSystemConfig().setDevice(stringBuilder.toString());
-                CodeTools codeTools = new CodeTools(Integer.parseInt(str));
+//                CodeTools codeTools = new CodeTools(Integer.parseInt(str));
+//
+//                codeTools.setOnBitmapCreate(new CodeTools.OnBitmapCreate() {
+//                    @Override
+//                    public void onBitmapCreate(Drawable bitmap) {
+//
+//                        SystemConfig.getSystemConfig().setCodeBit(bitmap);
+//                        imageView.setImageDrawable(bitmap);
+//                    }
+//                });
 
-                codeTools.setOnBitmapCreate(new CodeTools.OnBitmapCreate() {
-                    @Override
-                    public void onBitmapCreate(Drawable bitmap) {
 
-                        SystemConfig.getSystemConfig().setCodeBit(bitmap);
-                        imageView.setImageDrawable(bitmap);
-                    }
-                });
+                Bitmap b = BitmapFactory.decodeResource(getResources(), getQRDrawable(Integer.parseInt(str)));
+
+                SystemConfig.getSystemConfig().setCodeBit(new BitmapDrawable(b));
+                imageView.setImageBitmap(b);
             }
         });
 
     }
 
+    private int getQRDrawable(int id) {
+        int a = R.drawable.house_arduino01;
 
+        int offset = id - 1;
+
+        return a +offset;
+    }
 }

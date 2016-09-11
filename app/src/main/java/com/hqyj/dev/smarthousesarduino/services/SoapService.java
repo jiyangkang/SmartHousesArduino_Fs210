@@ -118,8 +118,16 @@ public class SoapService extends Service{
 //                    Log.e("SOAP", "run: " + stringBuilder.toString());
                     if (request != null && request.equalsIgnoreCase("ok")) {
 //                        Log.e("SOAP", "success");
+                        Intent i = new Intent();
+                        i.setAction(DataTool.OKWEIXIN);
+                        i.putExtra(DataTool.OKWEIXIN, DataTool.OKWEIXIN);
+                        SoapService.this.sendBroadcast(i);
                     } else {
                         Log.e("SOAP", "Can't Send " + request);
+                        Intent i = new Intent();
+                        i.setAction(DataTool.ERRORWEIXIN);
+                        i.putExtra(DataTool.ERRORWEIXIN, DataTool.ERRORWEIXIN);
+                        SoapService.this.sendBroadcast(i);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

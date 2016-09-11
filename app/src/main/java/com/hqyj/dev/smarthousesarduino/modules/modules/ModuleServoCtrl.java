@@ -2,6 +2,7 @@ package com.hqyj.dev.smarthousesarduino.modules.modules;
 
 import com.hqyj.dev.smarthousesarduino.modules.Module;
 import com.hqyj.dev.smarthousesarduino.modules.operates.FillDefaultDatas;
+import com.hqyj.dev.smarthousesarduino.modules.operates.FillServoDatas;
 import com.hqyj.dev.smarthousesarduino.modules.operates.MakeDefaultCmd;
 import com.hqyj.dev.smarthousesarduino.modules.operates.MakeServoCmd;
 
@@ -17,7 +18,7 @@ public class ModuleServoCtrl extends Module{
         setHaveSelectBar(false);
         setCtrlCount(1);
         setHaveInput(true);
-        fillDatas = new FillDefaultDatas();
+        fillDatas = new FillServoDatas();
         makeCmd = new MakeServoCmd();
         setBitmapToshow(null);
     }

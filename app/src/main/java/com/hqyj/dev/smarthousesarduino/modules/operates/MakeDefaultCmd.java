@@ -47,6 +47,9 @@ public class MakeDefaultCmd implements MakeCmd {
             if (cmds!= null){
                 makeCmd(cmds, netType, signature);
             }
+        }else {
+            byte[] cmds = DataTool.ERRORCMD;
+            makeCmd(cmds, netType, signature);
         }
     }
 

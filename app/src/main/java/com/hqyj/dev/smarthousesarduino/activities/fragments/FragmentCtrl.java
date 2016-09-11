@@ -63,7 +63,11 @@ public class FragmentCtrl extends Fragment {
 //                    module.sendCMD(editText.getText().toString());
 //                }
 
-                module.sendCMD(editText.getText().toString(), whichClicked);
+                if (editText.length() == 0) {
+                    module.sendCMD(null, whichClicked);
+                } else {
+                    module.sendCMD(editText.getText().toString(), whichClicked);
+                }
             }
         });
     }

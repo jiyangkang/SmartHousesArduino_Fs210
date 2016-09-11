@@ -21,9 +21,13 @@ public class FillTemperatureDatas implements FillDatas {
     private double getValue(byte[] datas) {
         double result;
         if (datas != null){
-            int value = datas[0] << 8 | datas[1];
+            int value = (datas[0] << 8 & 0x00ff00)| (datas[1] & 0x00ff);
             value = value >> 5;
             result = value * 0.125;
+            if ((datas[0] & 0x0080) != 0 ){
+                result = -result;
+            }
+
         }else {
             result = 0.00;
         }

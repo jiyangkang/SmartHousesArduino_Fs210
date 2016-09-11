@@ -59,7 +59,7 @@
         name="光电开关"
         location="arduino"
         moduleState="2"
-        moduleType="001050"
+        moduleType="001030"
     />
 
     <!--<module-->
@@ -146,7 +146,7 @@
         location="arduino"
         moduleState="1"
         moduleType="40046d"
-        cmd="正转:05;反转:06;关:30;"
+        cmd="正转:05;反转:06;停止:30;"
     />
 
     <!--<module-->

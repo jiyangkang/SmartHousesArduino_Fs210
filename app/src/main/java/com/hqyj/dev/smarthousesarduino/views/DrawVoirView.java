@@ -35,13 +35,17 @@ public class DrawVoirView extends View {
     private Context mContext;
 
     private Bitmap bitmap1, bitmap2;
-    private Rect orBimap1, orBitmap2, dstBitmap1, dstBitmap2;
+    private Rect orBimap1, orBitmap2, dstBitmap1;
     private Paint mPaint;
 
     private Rect showRect;
 
+    private Bitmap bitmapDefault = null;
+    private Rect bitmapDefaultRect;
+    private Rect bitmapDefaultdstRect;
+
     private String valueToShow = "显示数据";
-    private String name = "默认节点";
+    private String name = "华清远见";
 
     private int degree = 0;
 
@@ -61,6 +65,7 @@ public class DrawVoirView extends View {
 
     public void setModule(Module module) {
         this.module = module;
+        bitmapDefault = null;
         name = this.module.getName();
         if (this.module.getBitmapToshow() != null){
             bitmap1 = BitmapFactory.decodeResource(mContext.getResources(), module.getBitmapToshow()[0]);
@@ -108,6 +113,14 @@ public class DrawVoirView extends View {
         bitmapPin = BitmapFactory.decodeResource(context.getResources(), R.drawable.pin);
 
 
+        bitmapDefault = BitmapFactory.decodeResource(context.getResources(), R.drawable.hqyj);
+        int bW = bitmapDefault.getWidth();
+        int bH = bitmapDefault.getHeight();
+        bitmapDefaultRect = new Rect(0, 0, bW, bH);
+        int bdH = dstRect.width() * bH / bW;
+        bitmapDefaultdstRect = new Rect(dstRect.left, dstRect.top + (dstRect.height() - bdH)/2,
+                dstRect.right, dstRect.top + 3 * bdH/2);
+
         int wPin = bitmapPin.getWidth();
         int hPin = bitmapPin.getHeight();
         orPinRect = new Rect(0, 0, wPin, hPin);
@@ -151,25 +164,28 @@ public class DrawVoirView extends View {
         canvas.drawText(name,
                 titleRect.left + titleRect.width() / 8,
                 titleRect.top + titleRect.height() / 2 + mPaint.getTextSize() / 2, mPaint);
-        if ((bitmap1 != null) && (bitmap2 != null)) {
-            canvas.drawBitmap(bitmap2, orBitmap2, dstBitmap1, mPaint);
-            canvas.save();
-            canvas.rotate(120, dstBitmap1.left + dstBitmap1.width() / 2, dstBitmap1.top + dstBitmap1.height() / 2);
-            canvas.drawBitmap(bitmap1, orBimap1, dstBitmap1, mPaint);
-            canvas.restore();
-        } else {
-            mPaint.setTextSize(dstRect.width()/4);
-            mPaint.setColor(Color.argb(0xff, 0x0a, 0xfa,0x0a));
-            String showName = name.charAt(0)+"";
-            canvas.drawText(showName, dstBitmap1.left + dstBitmap1.width()/2 - showName.length()*mPaint.getTextSize()/2,
-                    dstBitmap1.top+dstBitmap1.height()/2 + mPaint.getTextSize()/2,mPaint);
+        if (bitmapDefault == null) {
+            if ((bitmap1 != null) && (bitmap2 != null)) {
+                canvas.drawBitmap(bitmap2, orBitmap2, dstBitmap1, mPaint);
+                canvas.save();
+                canvas.rotate(120, dstBitmap1.left + dstBitmap1.width() / 2, dstBitmap1.top + dstBitmap1.height() / 2);
+                canvas.drawBitmap(bitmap1, orBimap1, dstBitmap1, mPaint);
+                canvas.restore();
+            } else {
+                mPaint.setTextSize(dstRect.width() / 4);
+                mPaint.setColor(Color.argb(0xff, 0x0a, 0xfa, 0x0a));
+                String showName = name.charAt(0) + "";
+                canvas.drawText(showName, dstBitmap1.left + dstBitmap1.width() / 2 - showName.length() * mPaint.getTextSize() / 2,
+                        dstBitmap1.top + dstBitmap1.height() / 2 + mPaint.getTextSize() / 2, mPaint);
+            }
+
+            mPaint.setColor(Color.argb(0xff, 0x00, 0x00, 0x00));
+            mPaint.setTextSize(dstRect.width() / 11);
+            canvas.drawText(valueToShow, showRect.left + mPaint.getTextSize(),
+                    showRect.top + showRect.height() / 2 + mPaint.getTextSize() / 2, mPaint);
+        }else {
+            canvas.drawBitmap(bitmapDefault, bitmapDefaultRect, bitmapDefaultdstRect, mPaint);
         }
-
-        mPaint.setColor(Color.argb(0xff, 0x00, 0x00, 0x00));
-        mPaint.setTextSize(dstRect.width()/11);
-        canvas.drawText(valueToShow, showRect.left + mPaint.getTextSize(),
-                showRect.top+showRect.height()/2 + mPaint.getTextSize()/2, mPaint);
-
     }
 
     @Override

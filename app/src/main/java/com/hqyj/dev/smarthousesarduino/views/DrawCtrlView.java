@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -27,7 +28,7 @@ public class DrawCtrlView extends View {
     private final String TAG = DrawCtrlView.class.getSimpleName();
 
     private boolean isHaveSelectBar = false;
-    private int ctrlCount = 1;
+    private int ctrlCount = 0;
 
     private Rect dstRect;
 
@@ -40,7 +41,7 @@ public class DrawCtrlView extends View {
     private Rect selectBarRect, selecterRect;
 
 
-    private String name = "默认节点";
+    private String name = "华清远见";
 
     private String submit = "提交";
 
@@ -48,7 +49,9 @@ public class DrawCtrlView extends View {
     private Paint button1P, button2P, button3P, button4P, button5P, button6P, button7P, button8P, button9P;
     private String button1Text, button2Text, button3Text, button4Text, button5Text, button6Text, button7Text, button8Text, button9Text;
 
-    private Rect[] rects;
+    private Bitmap bitmapDefault = null;
+    private Rect bitmapDefaultRect;
+    private Rect bitmapDefaultdstRect;
 
     private Rect stateR;
 
@@ -65,18 +68,19 @@ public class DrawCtrlView extends View {
 
     public void setModule(Module module) {
         this.module = module;
+        bitmapDefault = null;
         name = module.getName();
         ctrlCount = module.getCtrlCount();
         isHaveSelectBar = module.isHaveSelectBar();
 
-        HashMap<String, Byte> cmdHashMap = module.getCmdHash();
+        HashMap<String, byte[]> cmdHashMap = module.getCmdHash();
 
         if (cmdHashMap != null) {
             ctrlCount = cmdHashMap.size();
             for (Object o : cmdHashMap.entrySet()) {
                 Map.Entry entry = (Map.Entry) o;
                 cmdList.add((String) entry.getKey());
-//                Log.d(TAG, String.format("%s:+:%02X", entry.getKey(), entry.getValue()));
+//                Log.d(TAG, String.format("::::::::::%s:+:", entry.getKey()));
             }
         }
         setButtonRect();
@@ -84,6 +88,7 @@ public class DrawCtrlView extends View {
         this.module.setOnValueReceived(new Module.OnValueReceived() {
             @Override
             public void onvalueReceived(String value, int degree) {
+
                 state = String.format("当前状态：%s", value);
                 postInvalidate();
             }
@@ -371,12 +376,13 @@ public class DrawCtrlView extends View {
                 button9Text = cmdList.get(8);
                 break;
             case 1:
-            default:
                 button1 = new Rect(bodyRect.left + bodyRect.width() / 4,
                         bodyRect.top + bodyRect.height() * 3 / 8,
                         bodyRect.left + bodyRect.width() * 3 / 4,
                         bodyRect.top + bodyRect.height() * 5 / 8);
                 button1Text = submit;
+                break;
+            default:
                 break;
         }
     }
@@ -422,6 +428,13 @@ public class DrawCtrlView extends View {
         button9P.setColor(buttonColorfo);
         bitmapPin = BitmapFactory.decodeResource(context.getResources(), R.drawable.pin);
 
+        bitmapDefault = BitmapFactory.decodeResource(context.getResources(), R.drawable.hqyj);
+        int bW = bitmapDefault.getWidth();
+        int bH = bitmapDefault.getHeight();
+        bitmapDefaultRect = new Rect(0, 0, bW, bH);
+        int bdH = dstRect.width() * bH / bW;
+        bitmapDefaultdstRect = new Rect(dstRect.left, dstRect.top + (dstRect.height() - bdH)/2,
+                dstRect.right, dstRect.top + 3 * bdH/2);
 
         int wPin = bitmapPin.getWidth();
         int hPin = bitmapPin.getHeight();
@@ -481,6 +494,10 @@ public class DrawCtrlView extends View {
             canvas.drawRect(selecterRect, mPaint);
         }
 
+        if (bitmapDefault != null) {
+            canvas.drawBitmap(bitmapDefault, bitmapDefaultRect, bitmapDefaultdstRect, mPaint);
+        }
+
         if (button1 != null) {
             drawButton(button1, button1P, canvas, button1Text);
         }
@@ -508,10 +525,11 @@ public class DrawCtrlView extends View {
         if (button9 != null) {
             drawButton(button9, button9P, canvas, button9Text);
         }
-
-        mPaint.setColor(Color.BLACK);
-        mPaint.setTextSize(22);
-        canvas.drawText(state, stateR.left, stateR.top + stateR.height() / 2, mPaint);
+        if (bitmapDefault == null) {
+            mPaint.setColor(Color.BLACK);
+            mPaint.setTextSize(15);
+            canvas.drawText(state, stateR.left, stateR.top + stateR.height() / 2, mPaint);
+        }
 
     }
 
@@ -581,9 +599,9 @@ public class DrawCtrlView extends View {
                 if (button1 != null && isXYinRect(x, y, button1)) {
                     button1P.setColor(buttonColorfo);
                     if (onSubmitClicked != null) {
-                        if (cmdList.size()!=0){
-                        onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(0));
-                        }else {
+                        if (cmdList.size() != 0) {
+                            onSubmitClicked.onSubmitClicked(module.getId(), cmdList.get(0));
+                        } else {
                             onSubmitClicked.onSubmitClicked(module.getId(), null);
                         }
 //                            Log.d(TAG, "onTouchEvent: " + module.getId());

@@ -12,10 +12,10 @@ import com.hqyj.dev.smarthousesarduino.tools.StringTools;
 public class MakeDCCtrlCmd implements MakeCmd {
 
     @Override
-    public void makeCmd(byte[] cmd, byte netType,byte[] signture) {
-        byte[] value = new byte[DataTool.protocal.length + cmd.length -2];
+    public void makeCmd(byte[] cmd, byte netType, byte[] signture) {
+        byte[] value = new byte[DataTool.protocal.length + cmd.length - 2];
         value[DataTool.HEAD] = DataTool.HEAD_RECEIVE;
-        value[DataTool.LENGTH] = (byte)cmd.length;
+        value[DataTool.LENGTH] = (byte) cmd.length;
         value[DataTool.OFFSET] = 0x08;
         value[DataTool.DATATYPE] = DataTool.CTRLDATA;
         value[DataTool.NETTYPE] = netType;
@@ -23,16 +23,16 @@ public class MakeDCCtrlCmd implements MakeCmd {
         value[DataTool.DEVICEADDR_L] = signture[1];
         value[DataTool.DEVICETYPE] = signture[2];
 
-        System.arraycopy(cmd, 0, value, value[DataTool.OFFSET],cmd.length);
+        System.arraycopy(cmd, 0, value, value[DataTool.OFFSET], cmd.length);
 
         byte mata = MathTools.makeMate(value);
 
-        byte[] result = new byte[value.length+1];
+        byte[] result = new byte[value.length + 1];
 
         System.arraycopy(value, 0, result, 0, value.length);
         result[value.length] = mata;
 
-        Log.d("CMD+", "makeCmd: "+ StringTools.changeIntoHexString(result, true));
+        Log.d("CMD+", "makeCmd: " + StringTools.changeIntoHexString(result, true));
         try {
             DataTool.sends.put(result);
         } catch (InterruptedException e) {
@@ -42,9 +42,9 @@ public class MakeDCCtrlCmd implements MakeCmd {
 
     @Override
     public void makeCmd(String cmd, byte netType, byte[] signature) {
-        if (cmd != null){
+        if (cmd != null) {
             int cmds = Integer.parseInt(cmd);
-            if (cmds >= 0 && cmds <= 180){
+            if (cmds >= 0 && cmds <= 180) {
                 byte[] cmds_b = {(byte) (cmds & 0x00ff)};
                 makeCmd(cmds_b, netType, signature);
             } else {
@@ -57,10 +57,14 @@ public class MakeDCCtrlCmd implements MakeCmd {
     @Override
     public void makeCmd(byte[] cmd_b, String cmd_s, byte netType, byte[] signature) {
         byte[] cmd;
-        if (cmd_s != null && cmd_s.length() <=4 && Integer.parseInt(cmd_s) <= 50 &&  Integer.parseInt(cmd_s) >= 20 ){
-            cmd =new byte[] {cmd_b[0], (byte) Integer.parseInt(cmd_s)};
+        if (cmd_b[0] != 0x30) {
+            if (cmd_s != null && cmd_s.length() <= 4 && Integer.parseInt(cmd_s) <= 50 && Integer.parseInt(cmd_s) >= 20 && Integer.parseInt(cmd_s) >= 20) {
+                cmd = new byte[]{cmd_b[0], (byte) Integer.parseInt(cmd_s)};
+            } else {
+                cmd = DataTool.ERRORCMD;
+            }
         }else {
-            cmd =DataTool.ERRORCMD;
+            cmd = new byte[]{0x30, 0x00};
         }
         makeCmd(cmd, netType, signature);
 

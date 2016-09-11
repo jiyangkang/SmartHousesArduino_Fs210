@@ -54,6 +54,8 @@ public class MakeInputCmd implements MakeCmd {
                 byte[] datas = cmds.getBytes();
                 makeCmd(datas, netType, signature);
             }
+        }else {
+            makeCmd(DataTool.ERRORCMD, netType, signature);
         }
     }
 

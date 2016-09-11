@@ -3,6 +3,7 @@ package com.hqyj.dev.smarthousesarduino.modules.modules;
 import com.hqyj.dev.smarthousesarduino.modules.Module;
 import com.hqyj.dev.smarthousesarduino.modules.operates.FillDCCtrlDatas;
 import com.hqyj.dev.smarthousesarduino.modules.operates.FillDefaultDatas;
+import com.hqyj.dev.smarthousesarduino.modules.operates.MakeDCCtrlCmd;
 import com.hqyj.dev.smarthousesarduino.modules.operates.MakeServoCmd;
 
 /**
@@ -18,7 +19,7 @@ public class ModuleDCCtrl extends Module{
         setCtrlCount(3);
         setHaveInput(true);
         fillDatas = new FillDCCtrlDatas();
-        makeCmd = new MakeServoCmd();
+        makeCmd = new MakeDCCtrlCmd();
         setBitmapToshow(null);
     }
 

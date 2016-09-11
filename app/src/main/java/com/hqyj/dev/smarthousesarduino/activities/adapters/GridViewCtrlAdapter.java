@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by jiyangkang on 2016/6/6 0006.
  */
-public class GridViewCtrlAdapter extends BaseAdapter{
+public class GridViewCtrlAdapter extends BaseAdapter {
 
     private final String TAG = GridViewCtrlAdapter.class.getSimpleName();
 
@@ -31,11 +31,12 @@ public class GridViewCtrlAdapter extends BaseAdapter{
     private List<Integer> moduleList;
 
 
-    public GridViewCtrlAdapter (Context context){
-        moduleHashMap =  ModuleCtrlList.getModuleCtrlList().getModuleHashMap();
+    public GridViewCtrlAdapter(Context context) {
+        moduleHashMap = ModuleCtrlList.getModuleCtrlList().getModuleHashMap();
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         moduleList = new ArrayList<>();
+        moduleList.add(0xff00ff);
         for (Object o : moduleHashMap.entrySet()) {
             Map.Entry entry = (Map.Entry) o;
             moduleList.add((Integer) entry.getKey());
@@ -44,7 +45,7 @@ public class GridViewCtrlAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return moduleHashMap.size();
+        return moduleList.size();
     }
 
     @Override
@@ -60,7 +61,7 @@ public class GridViewCtrlAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (convertView == null){
+        if (convertView == null) {
             convertView = mInflater.inflate(R.layout.gridview_ctrl_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.drawCtrlView = (DrawCtrlView) convertView.findViewById(R.id.ctrl_item);
@@ -71,13 +72,14 @@ public class GridViewCtrlAdapter extends BaseAdapter{
             @Override
             public void onSubmitClicked(int id, String whichClicked) {
 //                Log.d(TAG, "onSubmitClicked: " + id);
-                if (onSubmitReceived != null){
+                if (onSubmitReceived != null) {
                     onSubmitReceived.onSubmitReceived(id, whichClicked);
                 }
             }
         });
         convertView.setTag(viewHolder);
-        viewHolder.drawCtrlView.setModule(moduleHashMap.get(moduleList.get(position)));
+        if (position != 0)
+            viewHolder.drawCtrlView.setModule(moduleHashMap.get(moduleList.get(position)));
         return convertView;
     }
 
@@ -87,11 +89,11 @@ public class GridViewCtrlAdapter extends BaseAdapter{
         this.onSubmitReceived = onSubmitReceived;
     }
 
-    public interface OnSubmitReceived{
+    public interface OnSubmitReceived {
         void onSubmitReceived(int id, String whichClicked);
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         DrawCtrlView drawCtrlView;
     }
 }

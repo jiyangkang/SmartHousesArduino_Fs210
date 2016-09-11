@@ -1,9 +1,8 @@
 package com.hqyj.dev.smarthousesarduino.modules.modules;
 
 import com.hqyj.dev.smarthousesarduino.modules.Module;
-import com.hqyj.dev.smarthousesarduino.modules.operates.FillDefaultDatas;
+import com.hqyj.dev.smarthousesarduino.modules.operates.FillInputDatas;
 import com.hqyj.dev.smarthousesarduino.modules.operates.MakeInputCmd;
-import com.hqyj.dev.smarthousesarduino.modules.operates.MakeServoCmd;
 
 /**
  * Created by jiyangkang on 2016/6/2 0002.
@@ -17,7 +16,7 @@ public class ModuleInputCtrl extends Module{
         setHaveSelectBar(false);
         setCtrlCount(1);
         setHaveInput(true);
-        fillDatas = new FillDefaultDatas();
+        fillDatas = new FillInputDatas();
         makeCmd = new MakeInputCmd();
         setBitmapToshow(null);
     }

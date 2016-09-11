@@ -1,22 +1,21 @@
 package com.hqyj.dev.smarthousesarduino.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,16 +29,12 @@ import com.hqyj.dev.smarthousesarduino.R;
 import com.hqyj.dev.smarthousesarduino.activities.adapters.ViewPagerAdapter;
 import com.hqyj.dev.smarthousesarduino.activities.fragments.FragmentCtrl;
 import com.hqyj.dev.smarthousesarduino.activities.fragments.FragmentVoir;
-import com.hqyj.dev.smarthousesarduino.modules.Module;
-import com.hqyj.dev.smarthousesarduino.modules.ModuleCtrlList;
 import com.hqyj.dev.smarthousesarduino.services.AnalysisService;
 import com.hqyj.dev.smarthousesarduino.services.SoapService;
 import com.hqyj.dev.smarthousesarduino.services.UartService;
 import com.hqyj.dev.smarthousesarduino.services.UdpService;
 import com.hqyj.dev.smarthousesarduino.system.SystemConfig;
-import com.hqyj.dev.smarthousesarduino.tools.CodeTools;
 import com.hqyj.dev.smarthousesarduino.tools.DataTool;
-import com.hqyj.dev.smarthousesarduino.tools.MathTools;
 import com.hqyj.dev.smarthousesarduino.views.DrawBottom;
 import com.hqyj.dev.smarthousesarduino.views.DrawTitle;
 
@@ -63,6 +58,8 @@ public class ProjectActivity extends FragmentActivity{
     private DrawTitle drawTitle;
     private IntentFilter intentFilter;
     private  MyReciever myReciever;
+    private TextView txvWeixin;
+    private String weixinZhuangtai;
 
     private final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -79,6 +76,10 @@ public class ProjectActivity extends FragmentActivity{
                     String n = String.format("%s 控制命令超限",msg.getData().getString(TAG));
 
                     Toast.makeText(mContext, n, Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    weixinZhuangtai = String.format("与微信服务器状态：%s", msg.getData().getString(TAG));
+                    txvWeixin.setText(weixinZhuangtai);
                     break;
                 default:
                     break;
@@ -120,10 +121,14 @@ public class ProjectActivity extends FragmentActivity{
         myReciever = new MyReciever();
         intentFilter = new IntentFilter();
         intentFilter.addAction(DataTool.ERRORINPUT);
+        intentFilter.addAction(DataTool.ERRORWEIXIN);
+        intentFilter.addAction(DataTool.OKWEIXIN);
         registerReceiver(myReciever, intentFilter);
     }
 
     private void initView() {
+
+        txvWeixin = (TextView) findViewById(R.id.txv_weixin);
 
         drawTitle = (DrawTitle) findViewById(R.id.draw_title);
 
@@ -193,16 +198,20 @@ public class ProjectActivity extends FragmentActivity{
                     stringBuilder.append(SystemConfig.getSystemConfig().getDevice());
                     stringBuilder.replace(0, 4, String.format("%04d", Integer.parseInt(str)));
                     SystemConfig.getSystemConfig().setDevice(stringBuilder.toString());
-                    CodeTools codeTools = new CodeTools(Integer.parseInt(str));
+//                    CodeTools codeTools = new CodeTools(Integer.parseInt(str));
+//
+//                    codeTools.setOnBitmapCreate(new CodeTools.OnBitmapCreate() {
+//                        @Override
+//                        public void onBitmapCreate(Drawable bitmap) {
+//
+//                            SystemConfig.getSystemConfig().setCodeBit(bitmap);
+//                            imageView.setImageDrawable(bitmap);
+//                        }
+//                    });
+                    Bitmap b = BitmapFactory.decodeResource(getResources(), getQRDrawable(Integer.parseInt(str)));
 
-                    codeTools.setOnBitmapCreate(new CodeTools.OnBitmapCreate() {
-                        @Override
-                        public void onBitmapCreate(Drawable bitmap) {
-
-                            SystemConfig.getSystemConfig().setCodeBit(bitmap);
-                            imageView.setImageDrawable(bitmap);
-                        }
-                    });
+                    SystemConfig.getSystemConfig().setCodeBit(new BitmapDrawable(b));
+                    imageView.setImageBitmap(b);
                 }
             });
         } else {
@@ -234,8 +243,32 @@ public class ProjectActivity extends FragmentActivity{
                     msg.what = 2;
                     handler.sendMessage(msg);
                     break;
+                case DataTool.ERRORWEIXIN:
+                    Message msg_1 = new Message();
+                    Bundle b_1 = new Bundle();
+                    b_1.putString(TAG, intent.getStringExtra(DataTool.ERRORWEIXIN));
+                    msg_1.setData(b_1);
+                    msg_1.what = 3;
+                    handler.sendMessage(msg_1);
+                    break;
+                case DataTool.OKWEIXIN:
+                    Message msg_2 = new Message();
+                    Bundle b_2 = new Bundle();
+                    b_2.putString(TAG, intent.getStringExtra(DataTool.OKWEIXIN));
+                    msg_2.setData(b_2);
+                    msg_2.what = 3;
+                    handler.sendMessage(msg_2);
+                    break;
             }
         }
+    }
+
+    private int getQRDrawable(int id) {
+        int a = R.drawable.house_arduino01;
+
+        int offset = id - 1;
+
+        return a +offset;
     }
 
 }

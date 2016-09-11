@@ -51,6 +51,8 @@ public class MakeServoCmd implements MakeCmd {
                 byte[] cmds_b = DataTool.ERRORCMD;
                 makeCmd(cmds_b, netType, signature);
             }
+        }else {
+            makeCmd(DataTool.ERRORCMD, netType, signature);
         }
     }
 

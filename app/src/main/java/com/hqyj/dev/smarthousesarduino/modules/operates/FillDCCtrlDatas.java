@@ -12,7 +12,7 @@ public class FillDCCtrlDatas implements FillDatas {
     public String fillData(byte[] datas) {
 
         if (datas != null) {
-            return String.format("电机：%s", getValue(datas));
+            return String.format("%s", getValue(datas));
         }
 
         return null;
@@ -31,7 +31,7 @@ public class FillDCCtrlDatas implements FillDatas {
                 oritation = "停";
             }
 
-            result = String.format(" %s, %d", oritation, rate);
+            result = String.format("%s, %dr/s", oritation, rate);
         }else {
             result = "null";
         }

@@ -36,6 +36,7 @@ public class GridViewVoirAdapter extends BaseAdapter{
         mContext = context;
 //        mInflater = LayoutInflater.from(mContext);
         moduleList = new ArrayList<>();
+        moduleList.add(0xff00ff);
         for (Object o : moduleHashMap.entrySet()) {
             Map.Entry entry = (Map.Entry) o;
             moduleList.add((Integer) entry.getKey());
@@ -45,7 +46,7 @@ public class GridViewVoirAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return moduleHashMap.size();
+        return moduleList.size();
     }
 
     @Override
@@ -71,9 +72,10 @@ public class GridViewVoirAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.drawVoirView.setModule(moduleHashMap.get(moduleList.get(position)));
-        viewHolder.drawVoirView.invalidate();
-
+        if (position != 0) {
+            viewHolder.drawVoirView.setModule(moduleHashMap.get(moduleList.get(position)));
+            viewHolder.drawVoirView.invalidate();
+        }
 
         return convertView;
     }

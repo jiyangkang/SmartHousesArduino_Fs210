@@ -65,29 +65,30 @@ public class SAXPraserHelper extends DefaultHandler {
                         module = new ModuleDefaultCtrl();
                         module.setName(modlueList.get("name") + ":" + modlueList.get("location"));
                         module.setId(MathTools.changeIntoInt(modlueList.get("moduleType")));
-                        if (modlueList.get("cmd") != null){
-                            HashMap<String, byte[]> hashMapCMD = new HashMap<>();
-                            String cmd = modlueList.get("cmd");
-                            StringBuilder cmdName = new StringBuilder();
-                            StringBuilder cmdNum = new StringBuilder();
-                            boolean startCmd = false;
+                    }
+                    if (modlueList.get("cmd") != null) {
+                        HashMap<String, byte[]> hashMapCMD = new HashMap<>();
+                        String cmd = modlueList.get("cmd");
+                        StringBuilder cmdName = new StringBuilder();
+                        StringBuilder cmdNum = new StringBuilder();
+                        boolean startCmd = false;
 
-                            for (int i =0; i < cmd.length(); i++){
-                                if (cmd.charAt(i) != ':' && !startCmd){
-                                    cmdName.append(cmd.charAt(i));
-                                } else if (cmd.charAt(i) == ':'){
-                                    startCmd = true;
-                                } else if (cmd.charAt(i) != ';' && startCmd){
-                                    cmdNum.append(cmd.charAt(i));
-                                } else if (cmd.charAt(i) == ';'){
-                                    startCmd = false;
-                                    hashMapCMD.put(cmdName.toString(), MathTools.changeIntoByte(cmdNum.toString()));
-                                    cmdName.delete(0,cmdName.length());
-                                    cmdNum.delete(0, cmdNum.length());
-                                }
+                        for (int i = 0; i < cmd.length(); i++) {
+                            if (cmd.charAt(i) != ':' && !startCmd) {
+                                cmdName.append(cmd.charAt(i));
+                            } else if (cmd.charAt(i) == ':') {
+                                startCmd = true;
+                            } else if (cmd.charAt(i) != ';' && startCmd) {
+                                cmdNum.append(cmd.charAt(i));
+                            } else if (cmd.charAt(i) == ';') {
+                                startCmd = false;
+                                hashMapCMD.put(cmdName.toString(), MathTools.changeIntoByte(cmdNum.toString()));
+                                Log.e(TAG, "startElement: " + cmdName.toString());
+                                cmdName.delete(0, cmdName.length());
+                                cmdNum.delete(0, cmdNum.length());
                             }
-                            module.setCmdHash(hashMapCMD);
                         }
+                        module.setCmdHash(hashMapCMD);
                     }
                     ModuleCtrlList.getModuleCtrlList().setModuleHashMap(module.getId(), module);
                     ctrlNode.add(module.getName());

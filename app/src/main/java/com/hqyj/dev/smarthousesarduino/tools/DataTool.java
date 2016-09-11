@@ -33,6 +33,8 @@ public class DataTool {
 
     public static final byte[] ERRORCMD = new byte[]{'E', 'R', 'R', 'O', 'R'};
     public static final String ERRORINPUT = "ERRORINPUT";
+    public static final String ERRORWEIXIN = "DISCONNECT";
+    public static final String OKWEIXIN = "OK";
 
     public static ArrayBlockingQueue<byte[]> gets = new ArrayBlockingQueue<>(512);
     public static ArrayBlockingQueue<byte[]> sends = new ArrayBlockingQueue<>(512);
