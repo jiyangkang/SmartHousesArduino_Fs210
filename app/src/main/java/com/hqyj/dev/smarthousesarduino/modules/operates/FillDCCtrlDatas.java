@@ -25,7 +25,7 @@ public class FillDCCtrlDatas implements FillDatas {
             String oritation;
             if (datas[0] == 0x05){
                 oritation = "正转";
-            }else if (datas[1] == 0x06){
+            }else if (datas[0] == 0x06){
                 oritation = "反转";
             }else {
                 oritation = "停";

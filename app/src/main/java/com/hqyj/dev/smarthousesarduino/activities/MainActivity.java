@@ -200,6 +200,7 @@ public class MainActivity extends Activity {
 //                });
 
 
+
                 Bitmap b = BitmapFactory.decodeResource(getResources(), getQRDrawable(Integer.parseInt(str)));
 
                 SystemConfig.getSystemConfig().setCodeBit(new BitmapDrawable(b));
