@@ -30,6 +30,7 @@ public class FillMatrixDatas implements FillDatas {
             case 5:
             case 6:
             case 7:
+            case 8:
             case 9:
                 result = String.format("%d", value);
                 break;

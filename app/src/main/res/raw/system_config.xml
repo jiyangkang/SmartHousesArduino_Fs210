@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--project_uart="/dev/s3c2410_serial3"     210的-->
 <!--project_uart="/dev/ttySAC0"             4412的-->
+<!--project_uart="/dev/ttySAC2"             6818-->
 <project
     project_device="000109"
     project_id="1"
@@ -10,7 +11,7 @@
     project_outIP="http://sxt.farsightdev.com/SXTWebService.asmx"
     project_receiveport="20000"
     project_sendport="20001"
-    project_uart="/dev/ttySAC1"
+    project_uart="/dev/ttySAC2"
     project_baud_rate="115200"
     project_user_id="admin"
     project_mode="110">
